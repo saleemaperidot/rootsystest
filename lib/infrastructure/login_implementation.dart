@@ -8,6 +8,7 @@ import 'package:roottest/domain/core/failure/mainfailure.dart';
 import 'package:roottest/domain/login/Models/login/login.dart';
 import 'package:roottest/domain/login/Models/login_request/login_request.dart';
 import 'package:roottest/domain/login/repo/login_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @LazySingleton(as: LoginServices)
 class LoginImplementation extends LoginServices {
@@ -32,7 +33,8 @@ class LoginImplementation extends LoginServices {
       print(response.data.toString());
       if (response.statusCode == 200) {
         final result = Login.fromJson(response.data);
-
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString("token", response.data['token']['access']);
         return Right(result);
       } else {
         print(response.statusCode);

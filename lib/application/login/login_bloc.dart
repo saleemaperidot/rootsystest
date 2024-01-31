@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:roottest/domain/core/failure/mainfailure.dart';
 import 'package:roottest/domain/login/Models/login_request/login_request.dart';
 import 'package:roottest/domain/login/repo/login_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
