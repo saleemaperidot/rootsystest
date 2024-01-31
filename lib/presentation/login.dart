@@ -65,11 +65,13 @@ class LoginWidget extends StatelessWidget {
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
                   if (state.status == true) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) {
-                        return const CategoriesWidget();
-                      },
-                    ));
+                    Future.delayed(Duration.zero, () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) {
+                          return const CategoriesWidget();
+                        },
+                      ));
+                    });
                   } else {}
                   return ElevatedButton(
                       onPressed: () {
