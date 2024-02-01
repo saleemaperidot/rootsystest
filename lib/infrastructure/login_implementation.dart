@@ -21,8 +21,8 @@ class LoginImplementation extends LoginServices {
       //     body: jsonEncode(
       //         {'email': "waiter@gmail.com", 'password': "waiter123"}),
       //     headers: headers);
-      final data =
-          LoginRequest(email: "waiter@gmail.com", password: "waiter123");
+      // final data = LoginRequest(
+      //     email: loginRequest.email, password: loginRequest.password);
       final response = await Dio().post(Apis.login,
           options: Options(headers: {
             'Content-Type': 'application/json',
