@@ -20,10 +20,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(hasError: false, isLoading: true, status: false));
       final result =
           await _loginServices.login(loginRequest: event.loginrequest);
+      print(result);
       final _state = result.fold((MainFailure f) {
-        return LoginState(status: false, isLoading: false, hasError: true);
+        String? message;
+        if (f.runtimeType.toString() == '_ServerFailure') {
+          message = "Email or Password is not Valid";
+        } else if (f.runtimeType.toString() == '_ClientFailure') {
+          message = "Something went wrong !!!check network ";
+        }
+        return LoginState(
+            status: false,
+            isLoading: false,
+            hasError: true,
+            message: "Email or Password is not Valid");
       }, (r) {
-        return LoginState(status: true, isLoading: false, hasError: false);
+        return LoginState(
+            status: true,
+            isLoading: false,
+            hasError: false,
+            message: "Login Success");
       });
       emit(_state);
     });

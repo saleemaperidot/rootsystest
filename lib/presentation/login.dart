@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:roottest/application/login/login_bloc.dart';
 import 'package:roottest/domain/login/Models/login/login.dart';
 import 'package:roottest/domain/login/Models/login_request/login_request.dart';
@@ -10,6 +11,7 @@ class LoginWidget extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +67,10 @@ class LoginWidget extends StatelessWidget {
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
                   if (state.status == true) {
-                    Future.delayed(Duration.zero, () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) {
-                          return const CategoriesWidget();
-                        },
-                      ));
-                    });
-                  } else {}
+                    _navigateToCategories(context);
+                  } else if (state.hasError == true) {
+                    _showErrorSnackBar(context, state.message);
+                  }
                   return ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -91,6 +89,26 @@ class LoginWidget extends StatelessWidget {
           ),
         ),
       )),
+    );
+  }
+
+  void _navigateToCategories(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const CategoriesWidget()),
+      );
+    });
+  }
+
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    Fluttertoast.showToast(
+      msg: errorMessage,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }

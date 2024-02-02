@@ -37,6 +37,7 @@ class LoginImplementation extends LoginServices {
         pref.setString("token", response.data['token']['access']);
         return Right(result);
       } else {
+        print("error");
         print(response.statusCode);
         return Left(MainFailure.ServerFailure());
       }
